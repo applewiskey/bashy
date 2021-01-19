@@ -10,10 +10,12 @@ else
 fi
 
 if [ ! -d .git ]; then
-  echo -en "$bold$repo$normal"; exit 0
+  exit 0
+else
+  echo -en " "
 fi
 
-gitstatus="$(git status --porcelain --branch)"
+gitstatus="$(git status --porcelain --branch --ignore-submodules=dirty)"
 branch="$(git symbolic-ref --short HEAD)" || branch="unnamed branch"
 
 symbol_clean="\x01\033[39m\x02✓"  # foreground
@@ -39,4 +41,4 @@ done
 [ -z "$symbols" ] && symbols="$symbol_clean"
 
 # output
-echo -en "$bold$repo$normal at $bold$branch $symbols$normal"
+echo -en "$bold$branch $symbols$normal"
